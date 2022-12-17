@@ -4,7 +4,8 @@ import Card from 'react-bootstrap/Card';
 import { useDispatch } from 'react-redux';
 import CardsData from './CardsData';
 import './style.css';
-import { ADD } from '../redux/actions/action'
+import { ADD } from '../redux/actions/action';
+
 const Cards = () => {
 
   const [data, setData] = useState(CardsData);
@@ -26,7 +27,8 @@ const Cards = () => {
       <div className='row d-flex justify-content-center align-item-center'>
         {
           data.map((element, id) => {
-            return <>
+            return (
+            <>
               <Card style={{ width: '22rem', border: "none" }} className="mx-2 mt-4 card_style">
                 <Card.Img variant="top" src={element.imgdata} style={{ height: "16rem" }} className=" mt-3" />
                 <Card.Body>
@@ -36,7 +38,7 @@ const Cards = () => {
                   </Card.Text>
                   <div className='button_div d-flex justify-content-center'>
                     <Button variant="primary" 
-                    onClick={()=>send(element)}
+                    onClick={()=> send(element)}
                     className='col-lg-12'>Add to Cart</Button>
                   </div>
 
@@ -44,7 +46,7 @@ const Cards = () => {
               </Card>
 
             </>
-
+            )
           })
         }
 
