@@ -26,19 +26,19 @@ const Cards = () => {
       <h2 className='text-center'>Add to Cart Projects</h2>
       <div className='row d-flex justify-content-center align-item-center'>
         {
-          data.map((element, id) => {
+          data.map((ele, id) => {
             return (
             <>
               <Card style={{ width: '22rem', border: "none" }} className="mx-2 mt-4 card_style">
-                <Card.Img variant="top" src={element.imgdata} style={{ height: "16rem" }} className=" mt-3" />
+                <Card.Img variant="top" src={ele.imgdata} style={{ height: "16rem" }} className=" mt-3" />
                 <Card.Body>
-                  <Card.Title>{element.rname}</Card.Title>
+                  <Card.Title>{ele.rname}</Card.Title>
                   <Card.Text>
-                    Price: ₹ {element.price}
+                    Price: ₹ {ele.price }
                   </Card.Text>
                   <div className='button_div d-flex justify-content-center'>
                     <Button variant="primary" 
-                    onClick={()=> send(element)}
+                    onClick={()=> send(ele)}
                     className='col-lg-12'>Add to Cart</Button>
                   </div>
 

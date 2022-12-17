@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Badge from '@mui/material/Badge';
@@ -7,12 +7,17 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import{DLT} from '../redux/actions/action';
 
 const Header = () => {
 
+  const [price, setPrice]=useState(0);
+
   const getdata = useSelector((state) => state.cartreducer.carts);
   console.log(getdata);
+
+  const dispatch=useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -24,14 +29,32 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  const dlt = (id) =>{
+    dispatch(DLT(id))
+  }
+
+  const total= ()=>{
+    let price=0;
+    getdata.map((ele,k)=>{
+      price=ele.price * ele.qnty + price
+    });
+    setPrice(price);
+  };
+  useEffect(()=>{
+    total();
+  },[total])
+
   return (
 
     <>
       <Navbar bg="dark" variant="dark" style={{ height: "60px" }}>
         <Container>
-          <NavLink to="/" className="text-decoration-none text-light mx-3">Add to Cart</NavLink>
+          {/* <NavLink to="/" className="text-decoration-none text-light mx-3">Add to Cart</NavLink> */}
+          <Link to= "/" className="nav-link text-light mx-3"> Add to Cart</Link>
+
           <Nav className="me-auto">
-            <NavLink to="/" className="text-decoration-none text-light">Home</NavLink>
+            {/* <NavLink to="/" className="text-decoration-none text-light">Home</NavLink> */}
+            <Link to= "/" className="nav-link text-light mx-3"> Home</Link>
 
           </Nav>
           <Badge badgeContent={getdata.length} color="primary"
@@ -80,22 +103,22 @@ const Header = () => {
                                 <img src={e.imgdata} style={{ width: "5rem", height: "5rem" }}  alt=""/>
                                 </NavLink> */}
 
-                                <Link to={`/cart/${e.id}`} className="nav-link"><img src={e.imgdata} style={{ width: "5rem", height: "5rem" }} alt="" /></Link>
+                                <Link to={`/cart/${e.id}`} onClick={handleClose} className="nav-link"><img src={e.imgdata} style={{ width: "5rem", height: "5rem" }} alt="" /></Link>
 
                               </td>
                               <td>
                                 <p>{e.rname}</p>
                                 <p>Price: ₹{e.price}</p>
                                 <p>Quantity: ₹{e.qnty}</p>
-                                <p style={{ color: "red", fontSize: "20", cursor: "pointer" }}>
+                                <p style={{ color: "red", fontSize: "20", cursor: "pointer" }} onClick={()=>dlt(e.id)}>
                                   <i className='fas fa-trash smalltrash'></i>
                                 </p>
                               </td>
-                              <td className='mt-5' style={{ color: "red", fontSize: "20", cursor: "pointer" }}>
+                              <td className='mt-5'style={{ color: "red", fontSize: "20", cursor: "pointer" }} onClick={()=>dlt(e.id)}>
                                 <i className='fas fa-trash largetrash'></i>
                               </td>
                             </tr>
-                            <tr>  <p className='text-center'>Total: 300</p></tr>
+                            <tr>  <p className='text-center'>Total: {price}</p></tr>
 
                           </>
                         )
